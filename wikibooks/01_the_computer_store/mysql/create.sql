@@ -1,9 +1,9 @@
--- CREATE TABLE Manufacturers (
---   Code INTEGER,
---   Name VARCHAR(255) NOT NULL,
---
---   PRIMARY KEY (Code)
--- );
+CREATE TABLE Manufacturers (
+  Code INTEGER,
+  Name VARCHAR(255) NOT NULL,
+
+  PRIMARY KEY (Code)
+);
 CREATE TABLE Products (
   Code INTEGER,
   Name VARCHAR(255) NOT NULL ,
