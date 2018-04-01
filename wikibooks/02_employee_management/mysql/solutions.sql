@@ -5,7 +5,7 @@ SELECT LastName FROM Employees;
 SELECT DISTINCT LastName FROM Employees;
 
 -- 3. Select all the data of employees whose last name is "Smith".
-SELECT * FROM Employees WHERE LastName LIKE 'Smith';
+SELECT * FROM Employees WHERE LastName = 'Smith';
 
 -- 4. Select all the data of employees whose last name is "Smith" or "Doe".
 SELECT * FROM Employees WHERE LastName LIKE 'Smith' OR LastName LIKE 'Doe';
@@ -34,7 +34,8 @@ SELECT * FROM Employees INNER JOIN Departments ON Employees.Department = Departm
 SELECT Employees.Name, LastName, Departments.Name, Budget FROM Employees INNER JOIN Departments ON Employees.Department = Departments.Code;
 
 -- 12. Select the name and last name of employees working for departments with a budget greater than $60,000.
-SELECT Name, LastName FROM Employees INNER JOIN Departments ON Employees.Department = Departments.Code WHERE Departments.Budget >= 60000;
+SELECT Name, LastName FROM Employees INNER JOIN Departments ON Employees.Department = Departments.Code AND Departments.Budget > 60000;
+SELECT Name, LastName FROM Employees WHERE Deperatment IN (SELECT Code FROM Departments WHERE Budget > 60000);
 
 -- 13. Select the departments with a budget larger than the average budget of all the departments.
 SELECT Name FROM Departments WHERE Budget > (SELECT AVG(Budget) FROM Departments);
@@ -44,7 +45,15 @@ SELECT Departments.Name
   FROM Departments INNER JOIN Employees
     ON Employees.Department = Departments.Code
   GROUP BY Departments.Name
-    HAVING COUNT(Employees.Name) >= 3
+    HAVING COUNT(*) > 2
+
+SELECT Name
+  FROM Departments
+  WHERE Code IN (
+    SELECT Department
+      FROM Employees
+      GROUP BY Department
+      HAVING Count(*) > 2);
 
 -- 15. Select the name and last name of employees working for departments with second lowest budget.
 SELECT e.Name, e.LastName
@@ -56,7 +65,7 @@ SELECT e.Name, e.LastName
 
 -- 16. Add a new department called "Quality Assurance", with a budget of $40,000 and departmental code 11. Add an employee called "Mary Moore" in that department, with SSN 847-21-9811.
 INSERT INTO Departments (Code, Name, Budget) VALUES (11, 'Quality Assurance', 40000);
-INSERT INTO Employee (SSN, Name, LastName, Department) VALUES ('847-21-9811', 'Mary', 'Moore', 11);
+INSERT INTO Employees (SSN, Name, LastName, Department) VALUES ('847-21-9811', 'Mary', 'Moore', 11);
 
 -- 17. Reduce the budget of all departments by 10%.
 UPDATE Departments SET Budget = (Budget - Budget * 0.1);
