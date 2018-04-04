@@ -1,0 +1,19 @@
+CREATE TABLE Scientists (
+  SSN INTEGER PRIMARY KEY NOT NULL,
+  Name VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE Projects (
+  Code VARCHAR(4) PRIMARY KEY NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  Hours INTEGER
+);
+
+CREATE TABLE AssignedTo (
+  Scientist INTEGER NOT NULL,
+  Project VARCHAR(4) NOT NULL,
+  PRIMARY KEY (Scientist, Project),
+  FOREIGN KEY (Scientist) REFERENCES Scientists (SSN),
+  FOREIGN KEY (Project) REFERENCES Projects (Code)
+) ENGINE=InnoDB;
+
